@@ -9,8 +9,9 @@ I exploited the vsftpd 2.3.4 backdoor on Metasploitable2, gaining full admin acc
 4. Gained `uid=0(root)` access
 
 ### Screenshots
-![Metasploit Exploit Execution](https://example.com/metasploit-exploit.png)
-![`id` Command Output](https://example.com/id-command-output.png)
+### Screenshots
+![Metasploit Exploit Execution](screenshots/metasploit-exploit.png)
+![id Command Output](screenshots/id-root-access.png)
 
 ### Key Takeaway
 Finding vulnerabilities is step 1. Proving impact is what matters.
