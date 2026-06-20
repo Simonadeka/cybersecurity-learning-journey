@@ -8,7 +8,7 @@ I exploited the vsftpd 2.3.4 backdoor on Metasploitable2, gaining full admin acc
 3. Set RHOSTS and LHOST
 4. Gained `uid=0(root)` access
 
-### Screenshots
+## Screenshots
 ![Metasploit Exploit Execution](screenshots/metasploit-exploit.png)
 ![id Command Output](screenshots/id-root-access.png)
 
