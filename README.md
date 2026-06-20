@@ -28,7 +28,7 @@ Confirming root access after successful exploitation
 
 ### 4. SSH Root Access
 Remote access verification post-exploitation
-![SSH Root Access](screenshots/ssh%20id-root-access.png)
+![SSH Root Access](screenshots/ssh-id-root-access.png)
 
 # Cybersecurity Learning Journey: Day 4
 ## Exploiting vsftpd 2.3.4 Backdoor
