@@ -1,64 +1,44 @@
-# Day 5: Log Monitoring & SSH Analysis
 
-[Day](https://img.shields.io/badge/Day-5/30-blue?style=flat-square) 
-[Focus](https://img.shields.io/badge/Focus-Blue%20Team-green?style=flat-square) 
-[Skills](https://img.shields.io/badge/Skills-SSH%2C%20Log%20Analysis-orange?style=flat-square)
 
-### 🎯 Objective
-Shift from attacker to defender mindset. Monitor SSH & Windows logs to detect authentication activity.
+# Day 5: Log Monitoring & Detection
 
-### Lab Environment
+**Date:** 2026-04-20  
+**Goal:** Detect and analyze authentication logs from Linux SSH and Windows RDP using a lab setup.
 
-| Role | OS | IP | Purpose |
-| --- | --- | --- | --- |
-| Target | Ubuntu 22.04 | 192.168.x | SSH server & log source |
-| Attacker | Kali Linux | 192.168.x | SSH client |
-| Host | Windows 11 | – | Event Viewer analysis |
+### Lab Setup
+VirtualBox lab with 3 VMs:
+- **Attacker:** Kali Linux
+- **Target 1:** Ubuntu Desktop - SSH service
+- **Target 2:** Windows 10 - RDP service
 
-### Steps & Commands with Screenshots
-#### 1. Enable SSH Service on Ubuntu
-**Commands:**
-```bash
-sudo systemctl start ssh
-sudo systemctl status ssh
+![Lab Setup](screenshots/screenshot1-setup-openssh.png)
 
-Result:
-!screenshots/screenshot1-ssh-service.png
-Fig 1: SSH service active (running) on port 222. Monitor Linux Authentication Log (auth.log)
-Commands:javascriptbash
-sudo tail -f /var/log/auth.log
+### Part 1: Linux SSH Log Monitoring
 
-Result:
-!screenshots/screenshot2-tail-authlog.png
-Fig 2: Real‑time auth.log showing login attempts3. SSH Login from Kali to Ubuntu
-Commands:javascriptbash
-ssh simon@192.168.x
+1. **Enable SSH service on Ubuntu**
+![SSH Service Status](screenshots/screenshot2-ssh-service-status.png)
 
-Result:
-!screenshots/screenshot3-ssh-login.png
-Fig 3: Successful SSH login from Kali to Ubuntu4. Verify SSH Listening Port with netstat
-Commands:javascriptbash
-sudo netstat -tlnp | grep ssh
+2. **View authentication logs**
+Monitored `/var/log/auth.log` for login attempts
+![Auth Log](screenshots/screenshot3-ssh-authlog.png)
 
-Result:
-!screenshots/screenshot4-netstat-ssh.png
-Fig 4: netstat confirms SSH listening on 0.0.0.0:225. Windows Event Viewer – Filter Event ID 4624
-Commands (GUI):Open eventvwr.msc → Windows Logs → Security.Filter Current Log → Event ID 4624.Result:
-!screenshots/screenshot5-event4624-filter.png
-Fig 5: Event Viewer filter applied for ID 4624 (successful logon)6. View Windows Logon Events (Event 4624 Results)
+3. **Verify SSH port listening**
+![Netstat SSH](screenshots/screenshot4-netstat-ssh.png)
 
-Result:
-!screenshots/screenshot6-event4624-results.png
-Fig 6: List of successful logon events (Event ID 4624)
+### Part 2: Windows RDP Log Monitoring
 
-Key Takeaways
-SSH logs in /var/log/auth.log are the first line of defense for Linux remote access.Event ID 4624 in Windows logs every successful logon – essential for SOC monitoring.netstat confirms service exposure (port 22).Pairing commands with screenshots proves lab execution.
+1. **Filter Event Viewer for successful logons**
+Filtered for Event ID 4624
+![Event 4624 Filter](screenshots/screenshot5-event4624-filter.png)
 
-Next Steps
-Day 6: File integrity checks with md5sum + Wazuh agent setup for automated log collection.Progress:
+2. **Review successful logon events**
+![Event 4624 Results](screenshots/screenshot6-event4624-results.png)
 
-Day 5/30 ✅
-Tools: SSH, systemctl, tail, netstat, Event Viewer
-Skills: Log analysis, service management, blue‑team monitoring
+### Key Learnings
+- Linux stores SSH logs in `/var/log/auth.log`
+- Windows logs RDP logons as Event ID 4624 in Security log
+- `netstat -tlnp` confirms SSH is listening on port 22
+- Log monitoring is critical for detecting brute force and unauthorized access
 
-#30DayCyberChallenge #SOCAnalyst #BlueTeam #Linux #Windows #Cybersecurity
+### Tools Used
+VirtualBox, Ubuntu, Windows 10, Kali Linux, SSH, Event Viewer
