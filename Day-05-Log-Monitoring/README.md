@@ -1,43 +1,44 @@
-# Day 5 – SOC Analyst Challenge
 
-## Objective
-Detect successful logon events (Event ID 4624) on a Windows victim machine.
 
-## Steps & Evidence
-### 1️⃣ Lab Environment Setup
-![screenshot1-lab-setup.png](screenshot1-lab-setup.png)  
-*Figure 1: VirtualBox VMs – Windows victim & Kali attacker.*
+# Day 5: Log Monitoring & Detection
 
-### 2️⃣ Enable Windows Remote Desktop Service
-![screenshot2-windows-service-enable.png](screenshot2-windows-service-enable.png)  
-*Figure 2: Enabled RDP service on Windows.*
+**Date:** 2026-04-20  
+**Goal:** Detect and analyze authentication logs from Linux SSH and Windows RDP using a lab setup.
 
-### 3️⃣ SSH Access to Attacker Machine
-![screenshot3-ssh-login-linux.png](screenshot3-ssh-login-linux.png)  
-*Figure 3: SSH login to Kali Linux attacker.*
+### Lab Setup
+VirtualBox lab with 3 VMs:
+- **Attacker:** Kali Linux
+- **Target 1:** Ubuntu Desktop - SSH service
+- **Target 2:** Windows 10 - RDP service
 
-### 4️⃣ Verify Windows IP & Connectivity
-![screenshot4-windows-ip-check.png](screenshot4-windows-ip-check.png)  
-*Figure 4: `ipconfig` & ping test to confirm Windows IP.*
+![Lab Setup](screenshots/screenshot1-setup-openssh.png)
 
-### 5️⃣ MD5 Hash of Security Log
-![screenshot5-md5-log-hash.png](screenshot5-md5-log-hash.png)  
-*Figure 5: MD5 checksum of `Security.evtx` for integrity.*
+### Part 1: Linux SSH Log Monitoring
 
-### 6️⃣ Event Viewer Filter Setup (4624)
-![screenshot6-event4624-filter.png](screenshot6-event4624-filter.png)  
-*Figure 6: Filtering Security log for Event ID 4624.*
+1. **Enable SSH service on Ubuntu**
+![SSH Service Status](screenshots/screenshot2-ssh-service-status.png)
 
-### 7️⃣ Filtered 4624 Event Results
-![screenshot7-event4624-results.png](screenshot7-event4624-results.png)  
-*Figure 7: Successful logon events (4624) displayed.*
+2. **View authentication logs**
+Monitored `/var/log/auth.log` for login attempts
+![Auth Log](screenshots/screenshot3-ssh-authlog.png)
 
-## Commands Used
-1. **Windows service** – GUI `services.msc`.
-2. **SSH** – `ssh kali@<ip>`.
-3. **IP check** – `ipconfig` & `ping`.
-4. **MD5 hash** – `Get-FileHash -Path "Security.evtx" -Algorithm MD5`.
-5. **Event filter** – Event Viewer GUI filter for ID 4624.
+3. **Verify SSH port listening**
+![Netstat SSH](screenshots/screenshot4-netstat-ssh.png)
 
-## Proof of Completion
-All 7 screenshots + commands demonstrate ability to investigate Windows logon events as a SOC analyst.
+### Part 2: Windows RDP Log Monitoring
+
+1. **Filter Event Viewer for successful logons**
+Filtered for Event ID 4624
+![Event 4624 Filter](screenshots/screenshot5-event4624-filter.png)
+
+2. **Review successful logon events**
+![Event 4624 Results](screenshots/screenshot6-event4624-results.png)
+
+### Key Learnings
+- Linux stores SSH logs in `/var/log/auth.log`
+- Windows logs RDP logons as Event ID 4624 in Security log
+- `netstat -tlnp` confirms SSH is listening on port 22
+- Log monitoring is critical for detecting brute force and unauthorized access
+
+### Tools Used
+VirtualBox, Ubuntu, Windows 10, Kali Linux, SSH, Event Viewer
