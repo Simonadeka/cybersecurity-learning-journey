@@ -43,5 +43,3 @@ Filtered for Event ID 4624
 ### Tools Used
 VirtualBox, Ubuntu, Windows 10, Kali Linux, SSH, Event Viewer
 
-### All commands Used
-
